@@ -29,7 +29,7 @@ class DataProvider implements Providerable
         $this->user = $user;
         $this->password = $password;
 
-        $this->logger = ($logger === null) ? $this->get('service.logger') : $logger;
+        $this->logger = ($logger === null) ? $this->container->get('service.logger') : $logger;
     }
 
     /**
