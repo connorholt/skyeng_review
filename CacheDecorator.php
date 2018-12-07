@@ -52,6 +52,6 @@ class CacheDecorator extends DataProviderDecorator
 
     public function getCacheKey(array $input)
     {
-        return json_encode($input);
+        return md5(serialize($input));
     }
 }
