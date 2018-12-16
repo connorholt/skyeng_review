@@ -9,6 +9,7 @@ namespace src\Integration;
  */
 class CacheDecorator extends DataProviderDecorator
 {
+    /** @var CacheItemPoolInterface **/
     private $cache;
 
     /**
@@ -29,13 +30,14 @@ class CacheDecorator extends DataProviderDecorator
      *
      * @return array
      */
-    public function get(array $request)
+    public function get(array $request): array
     {
         $cacheKey = $this->getCacheKey($request);
         $cacheItem = $this->cache->getItem($cacheKey);
 
-        if ($cacheItem->isHit()) {
-            return $cacheItem->get();
+        $result = $cacheItem->get();
+        if ($result !== null) {
+            return $result;
         }
 
         $result = $this->provider->get($request);
@@ -50,7 +52,7 @@ class CacheDecorator extends DataProviderDecorator
         return $result;
     }
 
-    public function getCacheKey(array $input)
+    public function getCacheKey(array $input): string
     {
         return md5(serialize($input));
     }
